@@ -1,1 +1,80 @@
-# crypto-prog
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Прогноз · Зони & Пастки</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#111827">
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      padding: 14px;
+      background: #020617;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .card {
+      background: #020617;
+      margin: 10px;
+      padding: 12px;
+      border-radius: 10px;
+    }
+    .coin {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .status {
+      color: #facc15;
+      font-size: 14px;
+    }
+    .btn {
+      margin-top: 8px;
+      padding: 8px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header>📉 Прогноз · Зони & Пастки</header>
+
+<div class="card">
+  <div class="coin">BTC / USDT (15м)</div>
+  <div class="status">🟡 Лонг-пастка</div>
+  <p>
+    Вхід (шорт): 66 000 – 66 100<br>
+    SL: 66 500<br>
+    TP: 65 200 / 64 000 / 63 000
+  </p>
+</div>
+
+<div class="card">
+  <div class="coin">SOL / USDT (15м)</div>
+  <div class="status">🟡 Лонг-пастка</div>
+  <p>
+    Вхід (шорт): 24.0 – 24.2<br>
+    SL: 24.5<br>
+    TP: 23.0 / 22.5 / 22.0
+  </p>
+</div>
+
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+</body>
+</html>
