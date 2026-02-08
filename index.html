@@ -78,6 +78,34 @@ if ("serviceWorker" in navigator) {
 
 </body>
   <script>
+async function loadData() {
+  const res = await fetch("data.json?_=" + Date.now());
+  const data = await res.json();
+
+  document.getElementById("btc").innerHTML = `
+    <h3>${data.btc.pair}</h3>
+    🟡 ${data.btc.type}<br>
+    Вхід: ${data.btc.entry}<br>
+    SL: ${data.btc.sl}<br>
+    TP: ${data.btc.tp}
+  `;
+
+  document.getElementById("sol").innerHTML = `
+    <h3>${data.sol.pair}</h3>
+    🟡 ${data.sol.type}<br>
+    Вхід: ${data.sol.entry}<br>
+    SL: ${data.sol.sl}<br>
+    TP: ${data.sol.tp}
+  `;
+}
+
+// перше завантаження
+loadData();
+
+// автооновлення кожні 60 сек
+setInterval(loadData, 60000);
+</script>
+  <script>
 const DATA_URL = "https://serg1112.github.io/crypto-prog/data.json";
 const REFRESH_TIME = 60000; // 60 секунд
 
