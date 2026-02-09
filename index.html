@@ -112,40 +112,4 @@ function renderData(data) {
 loadData();
 setInterval(loadData, REFRESH_TIME);
 </script>
-  <script>
-const DATA_URL = "https://serg1112.github.io/crypto-prog/data.json";
-const REFRESH_TIME = 60000; // 60 секунд
-
-async function loadData() {
-  try {
-    const response = await fetch(DATA_URL + "?t=" + Date.now());
-    const data = await response.json();
-    renderData(data);
-    console.log("Оновлено:", new Date().toLocaleTimeString());
-  } catch (e) {
-    console.error("Помилка завантаження JSON", e);
-  }
-}
-
-function renderData(data) {
-  // BTC
-  document.getElementById("btc-bias").innerText = data.BTC.bias;
-  document.getElementById("btc-zone").innerText = data.BTC.zone;
-  document.getElementById("btc-sl").innerText = data.BTC.stop_loss;
-  document.getElementById("btc-tp").innerText = data.BTC.take_profit.join(" / ");
-
-  // SOL
-  document.getElementById("sol-bias").innerText = data.SOL.bias;
-  document.getElementById("sol-zone").innerText = data.SOL.zone;
-  document.getElementById("sol-sl").innerText = data.SOL.stop_loss;
-  document.getElementById("sol-tp").innerText = data.SOL.take_profit.join(" / ");
-
-  // час оновлення
-  document.getElementById("last-update").innerText = data.last_update;
-}
-
-// старт
-loadData();
-setInterval(loadData, REFRESH_TIME);
-</script>
 </html>
