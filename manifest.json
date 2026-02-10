@@ -1,10 +1,10 @@
 {
-  "name": "Прогноз · Зони & Пастки",
-  "short_name": "Прогноз",
-  "start_url": "index.html",
+  "name": "Crypto Прогноз",
+  "short_name": "Crypto15m",
+  "start_url": "./",
   "display": "standalone",
-  "background_color": "#020617",
-  "theme_color": "#111827",
+  "background_color": "#0e1117",
+  "theme_color": "#0e1117",
   "icons": [
     {
       "src": "icon.png",
