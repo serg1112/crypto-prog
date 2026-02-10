@@ -1,115 +1,27 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Прогноз · Зони & Пастки</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crypto Прогноз</title>
+
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#111827">
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-    }
-    header {
-      padding: 14px;
-      background: #020617;
-      text-align: center;
-      font-weight: bold;
-      font-size: 18px;
-    }
-    .card {
-      background: #020617;
-      margin: 10px;
-      padding: 12px;
-      border-radius: 10px;
-    }
-    .coin {
-      font-weight: bold;
-      font-size: 16px;
-    }
-    .status {
-      color: #facc15;
-      font-size: 14px;
-    }
-    .btn {
-      margin-top: 8px;
-      padding: 8px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      width: 100%;
-      font-size: 14px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-  
-<header>📉 Прогноз · Зони & Пастки</header>
 
-<div class="card">
-  <div class="coin">BTC / USDT (15м)</div>
-  <div class="status">🟡 Лонг-пастка</div>
-  <p>
-    Вхід (шорт): 66 000 – 66 100<br>
-    SL: 66 500<br>
-    TP: 65 200 / 64 000 / 63 000
-  </p>
-</div>
+<h1>📊 Крипто прогнози (15м)</h1>
 
-<div class="card">
-  <div class="coin">SOL / USDT (15м)</div>
-  <div class="status">🟡 Лонг-пастка</div>
-  <p>
-    Вхід (шорт): 24.0 – 24.2<br>
-    SL: 24.5<br>
-    TP: 23.0 / 22.5 / 22.0
-  </p>
-</div>
+<div id="content">Завантаження...</div>
+
+<script src="script.js"></script>
+
 <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
 </script>
 
 </body>
-  <script>
-const DATA_URL = "https://serg1112.github.io/crypto-prog/data.json";
-const REFRESH_TIME = 60000; // 60 секунд
-
-async function loadData() {
-  try {
-    const response = await fetch(DATA_URL + "?t=" + Date.now());
-    const data = await response.json();
-    renderData(data);
-    console.log("Оновлено:", new Date().toLocaleTimeString());
-  } catch (e) {
-    console.error("Помилка завантаження JSON", e);
-  }
-}
-
-function renderData(data) {
-  // BTC
-  document.getElementById("btc-bias").innerText = data.BTC.bias;
-  document.getElementById("btc-zone").innerText = data.BTC.zone;
-  document.getElementById("btc-sl").innerText = data.BTC.stop_loss;
-  document.getElementById("btc-tp").innerText = data.BTC.take_profit.join(" / ");
-
-  // SOL
-  document.getElementById("sol-bias").innerText = data.SOL.bias;
-  document.getElementById("sol-zone").innerText = data.SOL.zone;
-  document.getElementById("sol-sl").innerText = data.SOL.stop_loss;
-  document.getElementById("sol-tp").innerText = data.SOL.take_profit.join(" / ");
-
-  // час оновлення
-  document.getElementById("last-update").innerText = data.last_update;
-}
-
-// старт
-loadData();
-setInterval(loadData, REFRESH_TIME);
-</script>
 </html>
