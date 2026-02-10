@@ -1,36 +1,34 @@
+const URL = 'data.json';
+const INTERVAL = 60000; // 60 сек
+
 async function loadData() {
   try {
-    const res = await fetch('./data.json?_=' + Date.now());
-    if (!res.ok) throw new Error('HTTP error');
-
+    const res = await fetch(URL + '?t=' + Date.now());
     const data = await res.json();
-
-    document.getElementById('status').innerText =
-      '✅ Оновлено: ' + new Date().toLocaleTimeString();
-
-    let html = '';
-
-    for (const coin in data) {
-      const s = data[coin];
-
-      html += `
-        <div class="card">
-          <h2>${coin} (${s.tf || s.timeframe || ''})</h2>
-          <p><b>${s.signal || s.bias || ''}</b></p>
-          ${s.entry ? `<p>Вхід: ${s.entry}</p>` : ''}
-          ${s.tp ? `<p>TP: ${Array.isArray(s.tp) ? s.tp.join(' / ') : s.tp}</p>` : ''}
-          ${s.sl ? `<p>SL: ${s.sl}</p>` : ''}
-        </div>
-      `;
-    }
-
-    document.getElementById('content').innerHTML = html;
-
+    render(data);
   } catch (e) {
-    document.getElementById('status').innerText = '❌ Помилка завантаження';
-    console.error(e);
+    document.getElementById('content').innerText = '❌ Помилка завантаження';
+  }
+}
+
+function render(data) {
+  const el = document.getElementById('content');
+  el.innerHTML = '';
+
+  for (const coin in data) {
+    const s = data[coin];
+
+    el.innerHTML += `
+      <div class="card">
+        <h2>${coin} / USDT (${s.tf})</h2>
+        <div class="type">🟡 ${s.type}</div>
+        <div class="entry">Вхід: ${s.entry}</div>
+        <div class="sl">SL: ${s.sl}</div>
+        <div class="tp">TP: ${s.tp.join(' / ')}</div>
+      </div>
+    `;
   }
 }
 
 loadData();
-setInterval(loadData, 60000);
+setInterval(loadData, INTERVAL);
