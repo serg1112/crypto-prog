@@ -1,42 +1,45 @@
-const URL = './data.json';
-const INTERVAL = 60000; // 60 сек
 
 async function loadData() {
   try {
-    const res = await fetch(URL + '?t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP error');
+    const res = await fetch('./data.json?t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
 
     const data = await res.json();
     render(data);
 
     document.getElementById('status').innerText =
-      '✅ Оновлено: ' + new Date().toLocaleTimeString();
-
+      '✅ Дані оновлено: ' + new Date().toLocaleTimeString();
   } catch (e) {
-    document.getElementById('status').innerText =
-      '❌ Помилка завантаження';
+    document.getElementById('status').innerText = '❌ Помилка завантаження';
     console.error(e);
   }
 }
 
 function render(data) {
   const el = document.getElementById('content');
-  el.innerHTML = '';
+
+  let html = '';
 
   for (const coin in data) {
     const s = data[coin];
 
-    el.innerHTML += `
+    html += `
       <div class="card">
-        <h2>${coin} / USDT (${s.tf})</h2>
-        <p>Сигнал: <b>${s.signal}</b></p>
-        <p>Вхід: ${s.entry}</p>
-        <p>TP: ${s.tp}</p>
-        <p>SL: ${s.sl}</p>
+        <h2>${coin} / USDT (${s.timeframe ?? s.tf ?? ''})</h2>
+        <p><b>${s.bias ?? s.signal ?? ''}</b></p>
+        <p>Зона: ${s.zone ?? ''}</p>
+        ${s.entry ? `<p>Вхід: ${s.entry}</p>` : ''}
+        ${s.take_profit ? `<p>TP: ${s.take_profit.join(' / ')}</p>` : ''}
+        ${s.tp ? `<p>TP: ${s.tp}</p>` : ''}
+        ${s.stop_loss ? `<p>SL: ${s.stop_loss}</p>` : ''}
+        ${s.sl ? `<p>SL: ${s.sl}</p>` : ''}
+        ${s.comment ? `<p>${s.comment}</p>` : ''}
       </div>
     `;
   }
+
+  el.innerHTML = html;
 }
 
 loadData();
-setInterval(loadData, INTERVAL);
+setInterval(loadData, 60000);
