@@ -1,7 +1,7 @@
 async function loadData() {
   try {
-    const res = await fetch('./data.json?ts=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const res = await fetch('./data.json?_=' + Date.now());
+    if (!res.ok) throw new Error('HTTP error');
 
     const data = await res.json();
 
@@ -9,23 +9,25 @@ async function loadData() {
       '✅ Оновлено: ' + new Date().toLocaleTimeString();
 
     let html = '';
-    for (const key in data) {
-      const s = data[key];
+
+    for (const coin in data) {
+      const s = data[coin];
+
       html += `
-        <div style="border:1px solid #333;padding:10px;margin:10px 0">
-          <b>${key}</b><br>
-          TF: ${s.tf || s.timeframe}<br>
-          Сигнал: ${s.signal || s.bias}<br>
-          Вхід: ${s.entry || s.zone}<br>
-          TP: ${(s.tp || s.take_profit || []).toString()}<br>
-          SL: ${s.sl || s.stop_loss}
+        <div class="card">
+          <h2>${coin} (${s.tf || s.timeframe || ''})</h2>
+          <p><b>${s.signal || s.bias || ''}</b></p>
+          ${s.entry ? `<p>Вхід: ${s.entry}</p>` : ''}
+          ${s.tp ? `<p>TP: ${Array.isArray(s.tp) ? s.tp.join(' / ') : s.tp}</p>` : ''}
+          ${s.sl ? `<p>SL: ${s.sl}</p>` : ''}
         </div>
       `;
     }
+
     document.getElementById('content').innerHTML = html;
 
   } catch (e) {
-    document.getElementById('status').innerText = '❌ Помилка JS';
+    document.getElementById('status').innerText = '❌ Помилка завантаження';
     console.error(e);
   }
 }
